@@ -4,6 +4,8 @@ var mongoose = require('mongoose')
 var app = express();
 
 var User = require('./model/user')
+var { data } = require('./moke/test')
+
 
 app.use(express.static('static'))
 
@@ -12,10 +14,10 @@ app.use(bodyParser.urlencoded({
 	extended:true
 }));
 mongoose.Promise = global.Promise
-mongoose.connect('mongodb://127.0.0.1:27017/enjoy',{ useNewUrlParser: true })
-	.then(function(db){
-		console.log('ok!!!')
-	})
+// mongoose.connect('mongodb://127.0.0.1:27017/enjoy',{ useNewUrlParser: true })
+// 	.then(function(db){
+// 		console.log('ok!!!')
+// 	})
 	
 
 // var db = mongoose.connection;
@@ -29,14 +31,15 @@ app.get('/login',function(req,res){
 	res.send('suceess login');
 })
 
-app.post('/api/re',function(req,res){
-	console.log(req.body)
+app.get('/list',function(req,res){
+	res.send(data);
+})
 
+app.post('/api/re',function(req,res){
 	var u = new User({
 		username : req.body.name,
 		password : req.body.pass,
 	}) 
-	console.log(u)
 	u.save(function(err,doc){
 		if(err){
 			console.log(err)
